@@ -35,7 +35,8 @@ app.use(cors({
   origin: [
     'http://localhost:5173',
     'http://localhost:5174',
-    'https://realtime-chat-and-vediocalling-5uoc.onrender.com'
+    'https://realtime-chat-and-vediocalling-5uoc.onrender.com',
+    'https://realtime-chat-and-vediocalling-webapplication-9c2p1lhfx.vercel.app'
   ],
   credentials: true
 }));
@@ -93,7 +94,8 @@ const io = socketIo(server, {
     origin: [
       'http://localhost:5173',
       'http://localhost:5174',
-      'https://realtime-chat-and-vediocalling-weba.vercel.app'
+      'https://realtime-chat-and-vediocalling-weba.vercel.app',
+      'https://realtime-chat-and-vediocalling-webapplication-9c2p1lhfx.vercel.app'
     ],
     methods: ['GET', 'POST']
   }
