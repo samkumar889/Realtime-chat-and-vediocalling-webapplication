@@ -1,3 +1,7 @@
+const dns = require('dns');
+// Set DNS servers to Google DNS FIRST to fix SRV resolution
+dns.setServers(['8.8.8.8', '8.8.4.4']);
+
 const express = require('express');
 const http = require('http');
 const socketIo = require('socket.io');
@@ -5,7 +9,6 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const path = require('path');
-const dns = require('dns');
 const session = require('express-session');
 const passport = require('passport');
 
@@ -14,9 +17,6 @@ dotenv.config();
 
 // Now load passport config
 require('./config/passport');
-
-// Set DNS servers to Google DNS to fix SRV resolution
-dns.setServers(['8.8.8.8', '8.8.4.4']);
 
 const authRoutes = require('./routes/auth');
 const chatRoutes = require('./routes/chat');
