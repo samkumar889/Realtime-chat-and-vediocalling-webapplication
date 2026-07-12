@@ -48,7 +48,13 @@ if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
         }
 
         // If user doesn't exist at all, create a new one with unique username
-        const baseUsername = profile.displayName.replace(/\s+/g, '').toLowerCase();
+        // Use displayName if available, else email prefix, else a random string
+        let baseUsername = 'user';
+        if (profile.displayName) {
+          baseUsername = profile.displayName.replace(/\s+/g, '').toLowerCase();
+        } else if (profile.emails && profile.emails[0] && profile.emails[0].value) {
+          baseUsername = profile.emails[0].value.split('@')[0].replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
+        }
         const uniqueUsername = await generateUniqueUsername(baseUsername);
         
         user = await User.create({
