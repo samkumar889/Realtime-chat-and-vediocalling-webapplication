@@ -19,13 +19,30 @@ if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
   router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
   router.get('/google/callback', 
-    passport.authenticate('google', { session: false }),
+    (req, res, next) => {
+      passport.authenticate('google', { session: false }, (err, user, info) => {
+        if (err) {
+          console.error('Google OAuth error:', err);
+          return res.status(500).json({ message: 'OAuth error', error: err.message });
+        }
+        if (!user) {
+          return res.status(401).json({ message: 'Authentication failed' });
+        }
+        req.user = user;
+        next();
+      })(req, res, next);
+    },
     (req, res) => {
-      // Create JWT token
-      const token = generateToken(req.user._id);
+      try {
+        // Create JWT token
+        const token = generateToken(req.user._id);
 
-      // Redirect to frontend with token
-      res.redirect(`${process.env.FRONTEND_URL || 'http://localhost:5173'}/auth/callback?token=${token}`);
+        // Redirect to frontend with token
+        res.redirect(`${process.env.FRONTEND_URL || 'http://localhost:5173'}/auth/callback?token=${token}`);
+      } catch (error) {
+        console.error('Callback error:', error);
+        res.status(500).json({ message: 'Callback error', error: error.message });
+      }
     }
   );
 }
