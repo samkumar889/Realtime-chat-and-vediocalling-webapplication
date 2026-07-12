@@ -36,7 +36,8 @@ app.use(cors({
     'http://localhost:5173',
     'http://localhost:5174',
     'https://realtime-chat-and-vediocalling-5uoc.onrender.com',
-    'https://realtime-chat-and-vediocalling-webapplication-9c2p1lhfx.vercel.app'
+    'https://realtime-chat-and-vediocalling-webapplication-9c2p1lhfx.vercel.app',
+    'https://realtime-chat-and-vediocalling-weba.vercel.app'
   ],
   credentials: true
 }));
